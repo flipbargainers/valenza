@@ -10,7 +10,7 @@ content:
   - name: site
     label: Site Settings
     type: file
-    path: content/site.json
+    path: site.json
     format: json
     fields:
       - name: title
@@ -254,7 +254,7 @@ content:
             label: Expiry Label
             type: string
           - name: cvvLabel
-            label: CVV Label
+            label: CVV Label (Security Code)
             type: string
           - name: cardNumberPlaceholder
             label: Card Number Placeholder
@@ -284,10 +284,11 @@ content:
           - name: backLabel
             label: Back Button Label
             type: string
+
   - name: home
     label: Homepage
     type: file
-    path: content/home.json
+    path: home.json
     format: json
     fields:
       - name: hero
@@ -392,7 +393,7 @@ content:
   - name: products
     label: Products
     type: file
-    path: content/products.json
+    path: products.json
     format: json
     fields:
       - name: items
@@ -450,7 +451,7 @@ content:
   - name: collections
     label: Collections
     type: file
-    path: content/collections.json
+    path: collections.json
     format: json
     fields:
       - name: items
@@ -474,7 +475,7 @@ content:
   - name: reviews
     label: Reviews
     type: file
-    path: content/reviews.json
+    path: reviews.json
     format: json
     fields:
       - name: items
@@ -498,7 +499,7 @@ content:
   - name: commerce
     label: Commerce Settings
     type: file
-    path: content/commerce.json
+    path: commerce.json
     format: json
     fields:
       - name: apiBaseUrl
