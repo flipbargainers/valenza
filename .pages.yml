@@ -137,7 +137,6 @@ content:
                   - name: action
                     label: Action
                     type: string
-                    description: "Use category:sneakers or noop"
       - name: profile
         label: Profile Modal
         type: object
@@ -254,7 +253,7 @@ content:
             label: Expiry Label
             type: string
           - name: cvvLabel
-            label: CVV Label (Security Code)
+            label: CVV Label
             type: string
           - name: cardNumberPlaceholder
             label: Card Number Placeholder
@@ -338,7 +337,6 @@ content:
           - name: value
             label: Filter Value
             type: string
-            description: "category name, collection slug, or comma-separated ids"
           - name: limit
             label: Product Count
             type: number
