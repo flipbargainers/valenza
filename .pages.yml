@@ -19,20 +19,61 @@ content:
       - name: brandName
         label: Brand Name
         type: string
-      - name: nav
-        label: Navigation Links
+
+  - name: homepage
+    label: Homepage
+    type: file
+    path: home.json
+    format: json
+    fields:
+      - name: hero
+        label: Hero Banner
+        type: object
+        fields:
+          - name: title
+            label: Main Center Title
+            type: string
+          - name: subtitle
+            label: Center Subtitle
+            type: text
+          - name: kicker
+            label: Top Left Label
+            type: string
+          - name: sideTitle
+            label: Right Side Title
+            type: string
+          - name: sideSubtitle
+            label: Right Side Subtitle
+            type: text
+          - name: fannedImages
+            label: Hero Image Cards (Slide Gallery)
+            type: image
+            list: true
+      - name: productSections
+        label: Homepage Product Rows
         type: object
         list: true
         fields:
-          - name: label
-            label: Label
+          - name: title
+            label: Section Heading (e.g. New Arrivals)
             type: string
-          - name: page
-            label: Page
+          - name: subtitle
+            label: Section Subheading
             type: string
+          - name: mode
+            label: What products to show?
+            type: select
+            options: [latest, featured, category, collection]
+          - name: value
+            label: Category/Collection Name (Match the text exactly)
+            type: string
+            description: "If mode is category, type 'sneakers'. If mode is collection, type 'summer'."
+          - name: limit
+            label: Max Products to Display
+            type: number
 
   - name: products
-    label: Products
+    label: Products Catalog
     type: file
     path: products.json
     format: json
@@ -43,28 +84,19 @@ content:
         list: true
         fields:
           - name: name
-            label: Name
+            label: Product Name
             type: string
+          - name: category
+            label: Category
+            type: select
+            options: [sneakers, apparel, accessories]
           - name: price
             label: Price
             type: number
-
-  - name: homepage
-    label: Homepage
-    type: file
-    path: home.json
-    format: json
-    fields:
-      - name: reviewsTitle
-        label: Reviews Title
-        type: string
-
-  - name: commerce
-    label: Commerce
-    type: file
-    path: commerce.json
-    format: json
-    fields:
-      - name: currency
-        label: Currency
-        type: string
+          - name: images
+            label: Product Images
+            type: image
+            list: true
+          - name: featured
+            label: Mark as Featured?
+            type: boolean
