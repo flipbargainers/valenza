@@ -1,68 +1,7 @@
-# CloudCannon Configuration for VALENA
-
-# Source settings
-source: /
-paths:
-  uploads: assets/uploads
-  static: ''
-
-# Collections configuration
 collections_config:
   products:
-    name: Products
-    path: content/products.json
-    icon: shopping_bag
-    disable_url: true
-    
-  collections:
-    name: Collections
-    path: content/collections.json
-    icon: folder
-    disable_url: true
-    
-  reviews:
-    name: Reviews
-    path: content/reviews.json
-    icon: star
-    disable_url: true
-    
-  homepage:
-    name: Homepage
-    path: content/home.json
-    icon: home
-    disable_url: true
-    
-  sitewide:
-    name: Site Settings
-    path: content/site.json
-    icon: settings
-    disable_url: true
-    
-  commerce:
-    name: Commerce
-    path: content/commerce.json
-    icon: credit_card
-    disable_url: true
-
-# Data configuration for JSON files
-data_config:
-  products:
     path: content/products.json
   collections:
     path: content/collections.json
   reviews:
     path: content/reviews.json
-  home:
-    path: content/home.json
-  site:
-    path: content/site.json
-  commerce:
-    path: content/commerce.json
-
-# Editor configuration
-editor:
-  default_path: /
-
-# Enable source editor
-source_editor:
-  enabled: true
