@@ -29,6 +29,16 @@ content:
           - name: cartButton
             label: Cart Button Text
             type: string
+      - name: hero
+        label: Main Buttons
+        type: object
+        fields:
+          - name: shopNowButton
+            label: Shop Now Text
+            type: string
+          - name: exploreButton
+            label: Explore Text
+            type: string
 
   - name: homepage
     label: Homepage
@@ -41,16 +51,16 @@ content:
         type: object
         fields:
           - name: kicker
-            label: Top Left Label (Kicker)
+            label: Top Left Kicker (e.g. NEW COLLECTION)
             type: string
           - name: title
-            label: Main Center Title
+            label: Main Title
             type: string
           - name: subtitle
-            label: Center Subtitle
+            label: Main Subtitle
             type: text
           - name: sideKicker
-            label: Right Small Label
+            label: Right Kicker (e.g. LIMITED DROP)
             type: string
           - name: sideTitle
             label: Right Side Title
@@ -59,7 +69,7 @@ content:
             label: Right Side Subtitle
             type: text
           - name: gradientColor
-            label: Background Color (Hex)
+            label: Accent Color (Hex)
             type: string
           - name: fannedImages
             label: Hero Image Cards
@@ -77,37 +87,43 @@ content:
             label: Section Subtitle
             type: string
           - name: mode
-            label: Display Mode
+            label: Fill Mode
             type: select
             options: [latest, featured, category, collection, tag, ids]
           - name: value
-            label: Filter Value (Category or Collection Name)
+            label: Category or Collection Name
             type: string
           - name: limit
-            label: Max Products
+            label: Product Limit
             type: number
       - name: genderSection
-        label: Split Promo Section (Male/Female)
+        label: Promo Cards (Male/Female)
         type: object
         fields:
           - name: enabled
-            label: Show this section?
+            label: Section Enabled?
             type: boolean
           - name: title
-            label: Title
+            label: Section Title
             type: string
+          - name: subtitle
+            label: Section Subtitle
+            type: text
           - name: maleLabel
-            label: Male Label
-            type: string
-          - name: femaleLabel
-            label: Female Label
+            label: Male Card Label
             type: string
           - name: maleImage
-            label: Male Image
+            label: Male Card Image
             type: image
+          - name: femaleLabel
+            label: Female Card Label
+            type: string
           - name: femaleImage
-            label: Female Image
+            label: Female Card Image
             type: image
+          - name: ctaLabel
+            label: Card Button Text
+            type: string
 
   - name: products
     label: Products Catalog
@@ -121,34 +137,41 @@ content:
         list: true
         fields:
           - name: id
-            label: Numeric ID
+            label: ID Number
             type: number
           - name: name
-            label: Product Name
+            label: Name
             type: string
           - name: category
             label: Category
             type: select
             options: [sneakers, apparel, accessories]
           - name: price
-            label: Sale Price
+            label: Price
             type: number
           - name: originalPrice
-            label: Compare at Price
+            label: Original Price
             type: number
           - name: images
-            label: Product Images
+            label: Images
             type: image
             list: true
           - name: description
             label: Description
             type: text
+          - name: collection
+            label: Collection Slug
+            type: string
+          - name: gender
+            label: Gender
+            type: select
+            options: [male, female, unisex]
           - name: status
             label: Status
             type: select
             options: [published, draft]
           - name: featured
-            label: Featured Product
+            label: Featured?
             type: boolean
 
   - name: collections
@@ -158,32 +181,19 @@ content:
     format: json
     fields:
       - name: items
-        label: Collection List
+        label: Collections List
         type: object
         list: true
         fields:
           - name: slug
-            label: Slug (e.g. summer)
+            label: Slug (ID)
             type: string
           - name: title
             label: Title
             type: string
           - name: subtitle
             label: Subtitle
-            type: text
+            type: string
           - name: image
             label: Banner Image
             type: image
-
-  - name: commerce
-    label: Commerce Settings
-    type: file
-    path: commerce.json
-    format: json
-    fields:
-      - name: currency
-        label: Currency Code (USD)
-        type: string
-      - name: currencySymbol
-        label: Currency Symbol ($)
-        type: string
