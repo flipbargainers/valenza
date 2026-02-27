@@ -19,6 +19,16 @@ content:
       - name: brandName
         label: Brand Name
         type: string
+      - name: header
+        label: Header Buttons
+        type: object
+        fields:
+          - name: searchButton
+            label: Search Button Text
+            type: string
+          - name: cartButton
+            label: Cart Button Text
+            type: string
 
   - name: homepage
     label: Homepage
@@ -30,14 +40,17 @@ content:
         label: Hero Banner
         type: object
         fields:
+          - name: kicker
+            label: Top Left Label (Kicker)
+            type: string
           - name: title
             label: Main Center Title
             type: string
           - name: subtitle
             label: Center Subtitle
             type: text
-          - name: kicker
-            label: Top Left Label
+          - name: sideKicker
+            label: Right Small Label
             type: string
           - name: sideTitle
             label: Right Side Title
@@ -45,8 +58,11 @@ content:
           - name: sideSubtitle
             label: Right Side Subtitle
             type: text
+          - name: gradientColor
+            label: Background Color (Hex)
+            type: string
           - name: fannedImages
-            label: Hero Image Cards (Slide Gallery)
+            label: Hero Image Cards
             type: image
             list: true
       - name: productSections
@@ -55,22 +71,43 @@ content:
         list: true
         fields:
           - name: title
-            label: Section Heading (e.g. New Arrivals)
+            label: Section Title
             type: string
           - name: subtitle
-            label: Section Subheading
+            label: Section Subtitle
             type: string
           - name: mode
-            label: What products to show?
+            label: Display Mode
             type: select
-            options: [latest, featured, category, collection]
+            options: [latest, featured, category, collection, tag, ids]
           - name: value
-            label: Category/Collection Name (Match the text exactly)
+            label: Filter Value (Category or Collection Name)
             type: string
-            description: "If mode is category, type 'sneakers'. If mode is collection, type 'summer'."
           - name: limit
-            label: Max Products to Display
+            label: Max Products
             type: number
+      - name: genderSection
+        label: Split Promo Section (Male/Female)
+        type: object
+        fields:
+          - name: enabled
+            label: Show this section?
+            type: boolean
+          - name: title
+            label: Title
+            type: string
+          - name: maleLabel
+            label: Male Label
+            type: string
+          - name: femaleLabel
+            label: Female Label
+            type: string
+          - name: maleImage
+            label: Male Image
+            type: image
+          - name: femaleImage
+            label: Female Image
+            type: image
 
   - name: products
     label: Products Catalog
@@ -83,6 +120,9 @@ content:
         type: object
         list: true
         fields:
+          - name: id
+            label: Numeric ID
+            type: number
           - name: name
             label: Product Name
             type: string
@@ -91,12 +131,59 @@ content:
             type: select
             options: [sneakers, apparel, accessories]
           - name: price
-            label: Price
+            label: Sale Price
+            type: number
+          - name: originalPrice
+            label: Compare at Price
             type: number
           - name: images
             label: Product Images
             type: image
             list: true
+          - name: description
+            label: Description
+            type: text
+          - name: status
+            label: Status
+            type: select
+            options: [published, draft]
           - name: featured
-            label: Mark as Featured?
+            label: Featured Product
             type: boolean
+
+  - name: collections
+    label: Collections
+    type: file
+    path: collections.json
+    format: json
+    fields:
+      - name: items
+        label: Collection List
+        type: object
+        list: true
+        fields:
+          - name: slug
+            label: Slug (e.g. summer)
+            type: string
+          - name: title
+            label: Title
+            type: string
+          - name: subtitle
+            label: Subtitle
+            type: text
+          - name: image
+            label: Banner Image
+            type: image
+
+  - name: commerce
+    label: Commerce Settings
+    type: file
+    path: commerce.json
+    format: json
+    fields:
+      - name: currency
+        label: Currency Code (USD)
+        type: string
+      - name: currencySymbol
+        label: Currency Symbol ($)
+        type: string
