@@ -1,31 +1,26 @@
 media:
   input: assets/uploads
   output: /assets/uploads
-  extensions: [jpg, jpeg, png, gif, webp, svg, mp4, webm]
+  extensions: [jpg, jpeg, png, gif, webp, svg]
 
 settings:
   content:
     merge: true
 
-# DASHBOARD VIEW CONFIGURATION - This gives you the control panel feel
-views:
-  - name: dashboard
-    label: Dashboard
-    type: page
-    file: content/site.json
-    fields:
-      - name: title
-        label: Site Title
-        type: string
-      - name: brandName
-        label: Brand Name
-        type: string
-
+content:
   - name: products
     label: Products
     type: collection
-    path: content/products.json
-    key: items
+    path: content
+    filename: products.json
+    format: json
+    view:
+      fields: [id, name, price, stock, status, featured]
+      primary: name
+      sort: [id, name]
+      default:
+        sort: id
+        order: desc
     fields:
       - name: id
         label: ID
@@ -39,22 +34,17 @@ views:
         label: Status
         type: select
         options:
-          - label: Published
-            value: published
-          - label: Draft
-            value: draft
+          - published
+          - draft
         default: draft
       - name: featured
-        label: Featured Product
+        label: Featured
         type: boolean
         default: false
       - name: images
         label: Product Images
         type: image
         list: true
-        options:
-          input: assets/uploads
-          extensions: [jpg, jpeg, png, webp]
       - name: category
         label: Category
         type: select
@@ -64,7 +54,6 @@ views:
           - accessories
           - headwear
           - bags
-        allowOther: true
       - name: collection
         label: Collection
         type: select
@@ -73,7 +62,6 @@ views:
           - night
           - tech
           - heritage
-        allowOther: true
       - name: gender
         label: Gender
         type: select
@@ -82,19 +70,14 @@ views:
           - female
           - unisex
       - name: price
-        label: Price ($)
+        label: Price
         type: number
-        step: 0.01
-        min: 0
       - name: originalPrice
-        label: Compare At Price ($)
+        label: Compare At Price
         type: number
-        step: 0.01
-        min: 0
       - name: stock
-        label: Stock Quantity
+        label: Stock
         type: number
-        min: 0
         default: 0
       - name: sku
         label: SKU
@@ -106,15 +89,16 @@ views:
       - name: description
         label: Description
         type: text
-        multiline: true
-        options:
-          rows: 4
 
   - name: collections
     label: Collections
     type: collection
-    path: content/collections.json
-    key: items
+    path: content
+    filename: collections.json
+    format: json
+    view:
+      fields: [slug, title, subtitle]
+      primary: title
     fields:
       - name: slug
         label: URL Slug
@@ -131,13 +115,37 @@ views:
       - name: image
         label: Hero Image
         type: image
-        options:
-          input: assets/uploads
+
+  - name: reviews
+    label: Reviews
+    type: collection
+    path: content
+    filename: reviews.json
+    format: json
+    view:
+      fields: [name, rating, date]
+      primary: name
+    fields:
+      - name: name
+        label: Customer Name
+        type: string
+      - name: rating
+        label: Rating
+        type: number
+        min: 1
+        max: 5
+      - name: text
+        label: Review Text
+        type: text
+      - name: date
+        label: Date
+        type: string
 
   - name: homepage
     label: Homepage Builder
     type: file
     path: content/home.json
+    format: json
     fields:
       - name: hero
         label: Hero Section
@@ -152,17 +160,23 @@ views:
           - name: subtitle
             label: Subtitle
             type: text
+          - name: sideKicker
+            label: Side Kicker
+            type: string
+          - name: sideTitle
+            label: Side Title
+            type: string
+          - name: sideSubtitle
+            label: Side Subtitle
+            type: text
           - name: gradientColor
             label: Gradient Color
             type: string
             pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
           - name: fannedImages
-            label: Hero Image Stack
+            label: Hero Images
             type: image
             list: true
-            options:
-              input: assets/uploads
-              max: 5
       - name: productSections
         label: Product Sections
         type: object
@@ -178,32 +192,21 @@ views:
             label: Display Mode
             type: select
             options:
-              - label: Latest Products
-                value: latest
-              - label: Featured Only
-                value: featured
-              - label: By Category
-                value: category
-              - label: By Collection
-                value: collection
-              - label: By Tag
-                value: tag
-              - label: Specific IDs
-                value: ids
-              - label: Manual Selection
-                value: manual
+              - latest
+              - featured
+              - category
+              - collection
+              - tag
+              - ids
           - name: value
             label: Filter Value
             type: string
-            description: Category name, collection slug, or comma-separated IDs
           - name: limit
             label: Max Products
             type: number
-            min: 1
-            max: 12
             default: 4
       - name: genderSection
-        label: Gender Split Section
+        label: Gender Section
         type: object
         fields:
           - name: enabled
@@ -212,47 +215,50 @@ views:
           - name: title
             label: Section Title
             type: string
+          - name: subtitle
+            label: Section Subtitle
+            type: string
+          - name: maleLabel
+            label: Male Label
+            type: string
+          - name: femaleLabel
+            label: Female Label
+            type: string
           - name: maleImage
-            label: Male Category Image
+            label: Male Image
             type: image
-            options:
-              input: assets/uploads
           - name: femaleImage
-            label: Female Category Image
+            label: Female Image
             type: image
-            options:
-              input: assets/uploads
-      - name: reviews
-        label: Reviews Section
+          - name: limit
+            label: Products Per Card
+            type: number
+            default: 3
+          - name: ctaLabel
+            label: Button Label
+            type: string
+      - name: reviewsTitle
+        label: Reviews Section Title
+        type: string
+      - name: subscribe
+        label: Subscribe Section
         type: object
         fields:
           - name: title
-            label: Section Title
+            label: Title
             type: string
-          - name: items
-            label: Reviews
-            type: object
-            list: true
-            fields:
-              - name: name
-                label: Customer Name
-                type: string
-              - name: rating
-                label: Rating
-                type: number
-                min: 1
-                max: 5
-              - name: text
-                label: Review Text
-                type: text
-              - name: date
-                label: Date
-                type: string
+          - name: text
+            label: Text
+            type: text
+          - name: buttonLabel
+            label: Button Label
+            type: string
 
   - name: sitewide
     label: Site Settings
     type: file
     path: content/site.json
+    format: json
     fields:
       - name: title
         label: Browser Title
@@ -269,35 +275,106 @@ views:
             label: Link Text
             type: string
           - name: page
-            label: Page
+            label: Target Page
             type: select
             options:
               - home
               - plp
               - collections
-              - about
-              - contact
-      - name: theme
-        label: Theme Settings
+      - name: header
+        label: Header
         type: object
         fields:
-          - name: accentColor
-            label: Accent Color
+          - name: searchButton
+            label: Search Button
             type: string
-            pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
-          - name: imageHoverScale
-            label: Image Hover Zoom
-            type: number
-            step: 0.1
-            min: 1
-            max: 2
+          - name: cartButton
+            label: Cart Button
+            type: string
+      - name: hero
+        label: Hero Buttons
+        type: object
+        fields:
+          - name: shopNowButton
+            label: Shop Now
+            type: string
+          - name: exploreButton
+            label: Explore
+            type: string
+      - name: homeCollections
+        label: Collections Block
+        type: object
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: viewAllButton
+            label: View All Button
+            type: string
+      - name: pages
+        label: Page Labels
+        type: object
+        fields:
+          - name: collectionsTitle
+            label: Collections Page Title
+            type: string
+          - name: shopAllTitle
+            label: Shop All Title
+            type: string
+          - name: pdpBackButton
+            label: Back Button
+            type: string
+          - name: productSectionViewAllButton
+            label: View All Button
+            type: string
+          - name: productCountSuffix
+            label: Product Count Suffix
+            type: string
+      - name: search
+        label: Search
+        type: object
+        fields:
+          - name: placeholder
+            label: Placeholder
+            type: string
+          - name: startTypingMessage
+            label: Start Typing Message
+            type: string
+          - name: noResultsMessage
+            label: No Results Message
+            type: string
       - name: footer
         label: Footer
         type: object
         fields:
           - name: tagline
             label: Tagline
-            type: text
+            type: string
+          - name: socialTitle
+            label: Social Title
+            type: string
+          - name: socialLinks
+            label: Social Links
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Platform
+                type: string
+              - name: url
+                label: URL
+                type: string
+              - name: icon
+                label: Icon
+                type: select
+                options:
+                  - instagram
+                  - facebook
+                  - x
+                  - tiktok
+                  - youtube
+                  - linkedin
+                  - snapchat
           - name: columns
             label: Footer Columns
             type: object
@@ -317,11 +394,158 @@ views:
                   - name: action
                     label: Action
                     type: string
+      - name: profile
+        label: Profile Modal
+        type: object
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: saveButton
+            label: Save Button
+            type: string
+          - name: closeButton
+            label: Close Button
+            type: string
+          - name: navLabel
+            label: Nav Label
+            type: string
+          - name: namePlaceholder
+            label: Name Placeholder
+            type: string
+          - name: emailPlaceholder
+            label: Email Placeholder
+            type: string
+          - name: savedMessage
+            label: Saved Message
+            type: string
+      - name: theme
+        label: Theme
+        type: object
+        fields:
+          - name: imageHoverScale
+            label: Image Hover Scale
+            type: number
+          - name: pdpZoomScale
+            label: PDP Zoom Scale
+            type: number
+      - name: pdp
+        label: Product Page
+        type: object
+        fields:
+          - name: addToCartLabel
+            label: Add to Cart
+            type: string
+          - name: buyNowLabel
+            label: Buy Now
+            type: string
+          - name: relatedTitle
+            label: Related Title
+            type: string
+      - name: product
+        label: Product Labels
+        type: object
+        fields:
+          - name: stockLabel
+            label: Stock Label
+            type: string
+          - name: stockUnknown
+            label: Stock Unknown
+            type: string
+          - name: outOfStockLabel
+            label: Out of Stock
+            type: string
+          - name: addedToCartMessage
+            label: Added to Cart
+            type: string
+      - name: cart
+        label: Cart
+        type: object
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: closeButton
+            label: Close Button
+            type: string
+          - name: subtotalLabel
+            label: Subtotal Label
+            type: string
+          - name: emptyMessage
+            label: Empty Message
+            type: string
+          - name: removeButton
+            label: Remove Button
+            type: string
+      - name: subscribe
+        label: Subscribe
+        type: object
+        fields:
+          - name: emailPlaceholder
+            label: Email Placeholder
+            type: string
+          - name: successMessage
+            label: Success Message
+            type: string
+      - name: checkout
+        label: Checkout
+        type: object
+        fields:
+          - name: cartCheckoutLabel
+            label: Cart Checkout
+            type: string
+          - name: title
+            label: Title
+            type: string
+          - name: closeButton
+            label: Close Button
+            type: string
+          - name: cardNumberLabel
+            label: Card Number Label
+            type: string
+          - name: cardNameLabel
+            label: Card Name Label
+            type: string
+          - name: expiryLabel
+            label: Expiry Label
+            type: string
+          - name: cvvLabel
+            label: CVV Label
+            type: string
+          - name: cardNumberPlaceholder
+            label: Card Number Placeholder
+            type: string
+          - name: cardNamePlaceholder
+            label: Card Name Placeholder
+            type: string
+          - name: expiryPlaceholder
+            label: Expiry Placeholder
+            type: string
+          - name: cvvPlaceholder
+            label: CVV Placeholder
+            type: string
+          - name: payNowLabel
+            label: Pay Now
+            type: string
+          - name: successMessage
+            label: Success Message
+            type: string
+          - name: noItemsMessage
+            label: No Items Message
+            type: string
+      - name: navigation
+        label: Navigation
+        type: object
+        fields:
+          - name: backLabel
+            label: Back Label
+            type: string
 
   - name: commerce
     label: Commerce Settings
     type: file
     path: content/commerce.json
+    format: json
     fields:
       - name: apiBaseUrl
         label: Backend API URL
@@ -329,15 +553,38 @@ views:
       - name: useLiveBackendProducts
         label: Use Live Products
         type: boolean
-      - name: currency
-        label: Currency Code
+      - name: checkoutMode
+        label: Checkout Mode
+        type: select
+        options:
+          - stripe_checkout
+      - name: providerName
+        label: Provider Name
         type: string
-        default: USD
+      - name: providerDashboardUrl
+        label: Dashboard URL
+        type: string
+      - name: currency
+        label: Currency
+        type: string
       - name: currencySymbol
         label: Currency Symbol
         type: string
-        default: $
       - name: requireProfileEmail
-        label: Require Email for Checkout
+        label: Require Email
         type: boolean
-        default: true
+      - name: missingApiMessage
+        label: Missing API Message
+        type: string
+      - name: missingEmailMessage
+        label: Missing Email Message
+        type: string
+      - name: checkoutFailedMessage
+        label: Checkout Failed Message
+        type: string
+      - name: checkoutRequestFailedMessage
+        label: Checkout Request Failed
+        type: string
+      - name: paymentCancelledMessage
+        label: Payment Cancelled
+        type: string
