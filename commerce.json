@@ -1,0 +1,15 @@
+{
+  "apiBaseUrl": "",
+  "useLiveBackendProducts": false,
+  "checkoutMode": "stripe_checkout",
+  "providerName": "Stripe",
+  "providerDashboardUrl": "https://dashboard.stripe.com",
+  "currency": "USD",
+  "currencySymbol": "$",
+  "requireProfileEmail": true,
+  "missingApiMessage": "Set commerce.apiBaseUrl in CMS",
+  "missingEmailMessage": "Please save profile email first",
+  "checkoutFailedMessage": "Checkout failed",
+  "checkoutRequestFailedMessage": "Checkout request failed",
+  "paymentCancelledMessage": "Payment cancelled"
+}

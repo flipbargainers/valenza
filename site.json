@@ -1,0 +1,117 @@
+{
+  "title": "VALENA - Streetwear & Sneakers",
+  "brandName": "VALENA",
+  "nav": [
+    { "label": "Home", "page": "home" },
+    { "label": "Shop All", "page": "plp" },
+    { "label": "Collections", "page": "collections" }
+  ],
+  "header": {
+    "searchButton": "Search",
+    "cartButton": "Cart"
+  },
+  "hero": {
+    "shopNowButton": "SHOP NOW",
+    "exploreButton": "EXPLORE"
+  },
+  "homeCollections": {
+    "title": "COLLECTIONS",
+    "viewAllButton": "View all"
+  },
+  "pages": {
+    "collectionsTitle": "COLLECTIONS",
+    "shopAllTitle": "SHOP ALL",
+    "pdpBackButton": "Back",
+    "productSectionViewAllButton": "View all",
+    "productCountSuffix": "products"
+  },
+  "search": {
+    "placeholder": "Search products...",
+    "startTypingMessage": "Start typing...",
+    "noResultsMessage": "No results."
+  },
+  "footer": {
+    "tagline": "Premium streetwear and sneakers.",
+    "socialTitle": "Follow us",
+    "socialLinks": [
+      { "label": "Instagram", "url": "https://instagram.com", "icon": "instagram" },
+      { "label": "TikTok", "url": "https://tiktok.com", "icon": "tiktok" },
+      { "label": "X", "url": "https://x.com", "icon": "x" }
+    ],
+    "columns": [
+      {
+        "title": "Shop",
+        "links": [
+          { "label": "Sneakers", "action": "category:sneakers" },
+          { "label": "Apparel", "action": "category:apparel" }
+        ]
+      },
+      {
+        "title": "Support",
+        "links": [
+          { "label": "Contact", "action": "noop" }
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          { "label": "About", "action": "noop" }
+        ]
+      }
+    ]
+  },
+  "profile": {
+    "title": "MY PROFILE",
+    "saveButton": "SAVE PROFILE",
+    "closeButton": "Close",
+    "navLabel": "Profile",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "you@example.com",
+    "savedMessage": "Profile saved"
+  },
+  "theme": {
+    "imageHoverScale": 1.04,
+    "pdpZoomScale": 1.2
+  },
+  "pdp": {
+    "addToCartLabel": "ADD TO CART",
+    "buyNowLabel": "BUY NOW",
+    "relatedTitle": "RELATED PRODUCTS"
+  },
+  "product": {
+    "stockLabel": "Stock",
+    "stockUnknown": "n/a",
+    "outOfStockLabel": "Out of stock",
+    "addedToCartMessage": "Added to cart"
+  },
+  "cart": {
+    "title": "YOUR CART",
+    "closeButton": "Close",
+    "subtotalLabel": "Subtotal",
+    "emptyMessage": "Your cart is empty",
+    "removeButton": "Remove"
+  },
+  "subscribe": {
+    "emailPlaceholder": "Enter your email",
+    "successMessage": "Subscribed successfully"
+  },
+  "checkout": {
+    "cartCheckoutLabel": "CHECKOUT",
+    "title": "PAYMENT DETAILS",
+    "closeButton": "Close",
+    "cardNumberLabel": "Card Number",
+    "cardNameLabel": "Cardholder Name",
+    "expiryLabel": "Expiry",
+    "cvvLabel": "CVV",
+    "cardNumberPlaceholder": "1234 5678 9012 3456",
+    "cardNamePlaceholder": "John Doe",
+    "expiryPlaceholder": "MM/YY",
+    "cvvPlaceholder": "123",
+    "payNowLabel": "PAY NOW",
+    "successMessage": "Payment successful",
+    "noItemsMessage": "No items to checkout"
+  },
+  "navigation": {
+    "backLabel": "Back"
+  }
+}

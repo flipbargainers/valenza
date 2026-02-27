@@ -1,0 +1,113 @@
+{
+  "items": [
+  {
+    "id": 1,
+    "name": "Air Max Velocity",
+    "category": "sneakers",
+    "price": 189,
+    "originalPrice": 229,
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&h=600&fit=crop"
+    ],
+    "description": "Engineered for speed.",
+    "collection": "summer",
+    "gender": "male",
+    "sku": "VAL-AMV-001",
+    "stock": 12,
+    "status": "published",
+    "featured": true,
+    "tags": ["runner", "street"]
+  },
+  {
+    "id": 2,
+    "name": "Street Runner Pro",
+    "category": "sneakers",
+    "price": 159,
+    "originalPrice": 199,
+    "images": [
+      "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&h=600&fit=crop"
+    ],
+    "description": "Lightweight and durable.",
+    "collection": "night",
+    "gender": "male",
+    "sku": "VAL-SRP-002",
+    "stock": 8,
+    "status": "published",
+    "featured": false,
+    "tags": ["sport"]
+  },
+  {
+    "id": 3,
+    "name": "Urban Bomber Jacket",
+    "category": "apparel",
+    "price": 249,
+    "originalPrice": 299,
+    "images": [
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=600&fit=crop"
+    ],
+    "description": "Premium bomber.",
+    "collection": "heritage",
+    "gender": "female",
+    "sku": "VAL-UBJ-003",
+    "stock": 10,
+    "status": "published",
+    "featured": true,
+    "tags": ["jacket", "premium"]
+  },
+  {
+    "id": 4,
+    "name": "Tech Fleece Hoodie",
+    "category": "apparel",
+    "price": 129,
+    "originalPrice": 159,
+    "images": [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=600&fit=crop"
+    ],
+    "description": "Ultra-soft fleece.",
+    "collection": "tech",
+    "gender": "female",
+    "sku": "VAL-TFH-004",
+    "stock": 14,
+    "status": "published",
+    "featured": false,
+    "tags": ["hoodie", "tech"]
+  },
+  {
+    "id": 5,
+    "name": "Classic Combat Boots",
+    "category": "accessories",
+    "price": 179,
+    "originalPrice": 219,
+    "images": [
+      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=600&h=600&fit=crop"
+    ],
+    "description": "Rugged boots.",
+    "collection": "heritage",
+    "gender": "male",
+    "sku": "VAL-CCB-005",
+    "stock": 4,
+    "status": "published",
+    "featured": false,
+    "tags": ["boots"]
+  },
+  {
+    "id": 6,
+    "name": "Premium Watch",
+    "category": "accessories",
+    "price": 299,
+    "originalPrice": 399,
+    "images": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop"
+    ],
+    "description": "Minimalist timepiece.",
+    "collection": "tech",
+    "gender": "female",
+    "sku": "VAL-PWT-006",
+    "stock": 6,
+    "status": "published",
+    "featured": true,
+    "tags": ["watch", "accessory"]
+  }
+  ]
+}

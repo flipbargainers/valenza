@@ -1,0 +1,22 @@
+{
+  "items": [
+  {
+    "name": "Alex M.",
+    "rating": 5,
+    "text": "Love my new sneakers!",
+    "date": "2 days ago"
+  },
+  {
+    "name": "Sarah K.",
+    "rating": 5,
+    "text": "Bomber jacket exceeded expectations.",
+    "date": "1 week ago"
+  },
+  {
+    "name": "Mike T.",
+    "rating": 4,
+    "text": "Solid quality and fast shipping.",
+    "date": "2 weeks ago"
+  }
+  ]
+}

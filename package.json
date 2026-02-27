@@ -1,0 +1,19 @@
+{
+  "name": "valena-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:init": "node scripts/init-db.js",
+    "db:seed": "node scripts/seed-from-content.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.9.0",
+    "stripe": "^16.10.0"
+  }
+}

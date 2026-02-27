@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="site-title">VALENA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-elevated: #141414;
+      --fg: #f5f5f5;
+      --muted: #737373;
+      --accent: #c8ff00;
+      --accent-dim: #9fcc00;
+      --card: #1a1a1a;
+      --border: #2a2a2a;
+      --danger: #ff4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); min-height: 100vh; }
+    .font-display { font-family: 'Bebas Neue', sans-serif; }
+    .page { display: none; animation: fadeIn .25s ease; }
+    .page.active { display: block; }
+    .btn-primary { background: var(--accent); color: var(--bg); font-weight: 700; }
+    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-outline { border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .product-card .img-wrap { border: 2px solid transparent; transition: all .25s ease; overflow: hidden; }
+    .product-card:hover .img-wrap { border-color: var(--accent); box-shadow: 0 0 18px rgba(200,255,0,.25); }
+    img { transition: transform .35s ease, filter .35s ease; }
+    img:hover { transform: scale(var(--image-hover-scale, 1.04)); filter: brightness(1.05); }
+    .fanned-container { position: relative; width: 100%; height: 420px; display: flex; align-items: center; justify-content: center; }
+    .fanned-image { position: absolute; width: 220px; height: 300px; border-radius: 14px; overflow: hidden; transition: all .45s ease; box-shadow: 0 25px 40px rgba(0,0,0,.55); }
+    .fanned-image img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-blob { position: absolute; width: 420px; height: 420px; border-radius: 999px; filter: blur(85px); opacity: .18; right: -120px; top: -120px; pointer-events: none; }
+    .modal-overlay { display: none; }
+    .modal-overlay.active { display: block; }
+    .search-input-compact {
+      width: min(420px, 100%);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: #000;
+      box-shadow: 0 0 0 1px rgba(200,255,0,.2) inset;
+    }
+    .search-input-compact::placeholder { color: rgba(200,255,0,.65); }
+    .search-input-compact:focus { outline: none; box-shadow: 0 0 0 2px rgba(200,255,0,.35); }
+    .search-shell { width: min(460px, 92vw); margin: 0 auto; }
+    .search-results-panel {
+      margin-top: 10px;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+    }
+    .thumb-btn { border: 2px solid transparent; }
+    .thumb-btn.active { border-color: var(--accent); }
+    .pdp-zoom { overflow: hidden; }
+    .pdp-zoom img { transform-origin: center center; }
+    .pdp-zoom:hover img { transform: scale(var(--pdp-zoom-scale, 1.2)); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+    @media (max-width: 768px) {
+      .fanned-container { height: 320px; }
+      .fanned-image { width: 165px; height: 230px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="fixed top-0 left-0 right-0 z-40 bg-[rgba(10,10,10,.92)] backdrop-blur border-b border-[var(--border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 sm:h-20 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="nav-back-btn" onclick="goBackPage()" class="btn-outline px-3 py-1.5 rounded-full text-xs hidden">&larr; <span id="nav-back-label">Back</span></button>
+          <a href="#" onclick="navigateTo('home');return false;" class="font-display text-2xl tracking-wider">
+            <span id="brand-name">VALENA</span>
+          </a>
+        </div>
+        <nav id="main-nav" class="hidden md:flex items-center gap-7 text-sm text-[var(--muted)]"></nav>
+        <div class="flex items-center gap-2">
+          <button id="header-search-btn" onclick="openSearch()" class="p-2">Search</button>
+          <button onclick="openProfile()" class="p-2 inline-flex items-center gap-1">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM5 21a7 7 0 0 1 14 0"/>
+            </svg>
+            <span id="profile-nav-label">Profile</span>
+          </button>
+            <button onclick="openCart()" class="p-2 relative">
+              <span id="header-cart-btn">Cart</span>
+            <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-[var(--accent)] text-black text-xs rounded-full hidden items-center justify-center">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section id="page-home" class="page active">
+      <section class="min-h-[75vh] flex items-center relative overflow-hidden">
+        <div id="hero-blob" class="hero-blob bg-[var(--accent)]"></div>
+        <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+          <div class="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <p id="hero-kicker" class="text-[var(--accent)] tracking-widest text-sm mb-3"></p>
+              <h1 id="hero-title" class="font-display text-5xl sm:text-6xl leading-none mb-4"></h1>
+              <p id="hero-subtitle" class="text-[var(--muted)] max-w-lg mb-7"></p>
+              <div class="flex gap-3">
+                <button id="hero-shop-btn" onclick="navigateTo('plp')" class="btn-primary px-6 py-3 rounded-full text-sm">SHOP NOW</button>
+                <button id="hero-explore-btn" onclick="document.getElementById('cms-product-sections').scrollIntoView({behavior:'smooth'})" class="btn-outline px-6 py-3 rounded-full text-sm">EXPLORE</button>
+              </div>
+            </div>
+            <div>
+              <div id="fanned-stack" class="fanned-container"></div>
+              <div class="flex items-center justify-center gap-2 -mt-2">
+                <button onclick="cycleFanned(-1)" class="btn-outline w-10 h-10 rounded-full text-sm">&lt;</button>
+                <button onclick="cycleFanned(1)" class="btn-outline w-10 h-10 rounded-full text-sm">&gt;</button>
+              </div>
+              <div class="mt-4 text-center">
+                <p id="hero-side-kicker" class="text-[var(--accent)] text-xs tracking-[0.25em]"></p>
+                <h3 id="hero-side-title" class="font-display text-2xl mt-1"></h3>
+                <p id="hero-side-subtitle" class="text-[var(--muted)] text-sm mt-1"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cms-product-sections" class="py-12 lg:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14" id="dynamic-sections"></div>
+      </section>
+
+      <section id="gender-home-section" class="py-12 lg:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="mb-8">
+            <p id="gender-section-subtitle" class="text-[var(--accent)] text-sm tracking-widest mb-1"></p>
+            <h2 id="gender-section-title" class="font-display text-3xl"></h2>
+          </div>
+          <div id="gender-sections" class="grid md:grid-cols-2 gap-6"></div>
+        </div>
+      </section>
+
+      <section class="py-12 lg:py-16 bg-[var(--bg-elevated)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-end justify-between mb-8">
+            <h2 id="home-collections-title" class="font-display text-3xl">COLLECTIONS</h2>
+            <button id="home-collections-view-all" onclick="navigateTo('collections')" class="text-sm text-[var(--accent)]">View all</button>
+          </div>
+          <div id="home-collections" class="grid md:grid-cols-2 gap-5"></div>
+        </div>
+      </section>
+
+      <section class="py-12 lg:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="font-display text-3xl mb-8" id="reviews-title">REVIEWS</h2>
+          <div id="reviews-grid" class="grid md:grid-cols-3 gap-4"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-collections" class="page">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 id="collections-page-title" class="font-display text-4xl mb-8">COLLECTIONS</h1>
+        <div id="collections-grid" class="grid md:grid-cols-2 gap-6"></div>
+      </div>
+    </section>
+
+    <section id="page-plp" class="page">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex items-center justify-between mb-6">
+          <h1 id="plp-page-title" class="font-display text-4xl">SHOP ALL</h1>
+          <p class="text-[var(--muted)]"><span id="product-count">0</span> <span id="product-count-suffix">products</span></p>
+        </div>
+        <div id="plp-filters" class="flex flex-wrap gap-2 mb-6"></div>
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6"></div>
+      </div>
+    </section>
+
+    <section id="page-pdp" class="page">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <button id="pdp-back-btn" onclick="navigateTo('plp')" class="text-sm text-[var(--muted)] mb-5">Back</button>
+        <div class="grid lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-2 flex lg:flex-col gap-2 order-2 lg:order-1" id="pdp-thumbnails"></div>
+          <div id="pdp-image-wrap" class="lg:col-span-5 rounded-2xl overflow-hidden bg-[var(--card)] aspect-square order-1 lg:order-2 pdp-zoom">
+            <img id="pdp-image" src="" alt="" class="w-full h-full object-cover">
+          </div>
+          <div class="lg:col-span-5 order-3">
+            <p id="pdp-category" class="text-[var(--accent)] text-sm tracking-widest mb-2"></p>
+            <h1 id="pdp-title" class="font-display text-4xl leading-none mb-3"></h1>
+            <p id="pdp-description" class="text-[var(--muted)] mb-4"></p>
+            <p class="text-3xl font-display mb-5" id="pdp-price"></p>
+            <div class="flex gap-3">
+              <button id="add-to-cart-btn" onclick="addToCartFromPdp()" class="btn-outline px-6 py-3 rounded-full text-sm">ADD TO CART</button>
+              <button id="buy-now-btn" onclick="buyNowFromPdp()" class="btn-primary px-6 py-3 rounded-full text-sm">BUY NOW</button>
+            </div>
+          </div>
+        </div>
+        <section class="mt-14">
+          <h2 class="font-display text-3xl mb-6" id="related-title">RELATED PRODUCTS</h2>
+          <div id="related-products" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <section class="py-12 lg:py-16 bg-[var(--bg-elevated)]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 id="subscribe-title" class="font-display text-4xl mb-3">JOIN THE MOVEMENT</h2>
+      <p id="subscribe-text" class="text-[var(--muted)] mb-5">Subscribe to get exclusive access.</p>
+      <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row gap-3">
+        <input id="subscribe-email" type="email" required class="flex-1 bg-[var(--card)] border border-[var(--border)] rounded-full px-5 py-3" placeholder="Enter your email">
+        <button id="subscribe-button" class="btn-primary rounded-full px-6 py-3">SUBSCRIBE</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="bg-[var(--bg-elevated)] border-t border-[var(--border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <p class="font-display text-2xl" id="footer-brand">VALENA</p>
+          <p id="footer-tagline" class="text-[var(--muted)] text-sm mt-2"></p>
+        </div>
+        <div id="footer-col-1"></div>
+        <div id="footer-col-2"></div>
+        <div id="footer-col-3"></div>
+      </div>
+      <div class="border-t border-[var(--border)] mt-8 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <p class="text-xs text-[var(--muted)]" id="footer-social-title">Follow us</p>
+        <div class="flex flex-wrap gap-4 text-sm" id="footer-social-links"></div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="search-modal" class="modal-overlay fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/80" onclick="closeSearch()"></div>
+    <div class="relative z-10 mt-24 px-4">
+      <div class="search-shell">
+        <input id="search-input" oninput="performSearch(this.value)" type="text" placeholder="Search products..." class="search-input-compact bg-[var(--card)] rounded-full px-4 py-2 text-sm">
+      </div>
+      <div class="search-shell search-results-panel">
+        <div id="search-results" class="max-h-80 overflow-y-auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cart-modal" class="modal-overlay fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/80" onclick="closeCart()"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-[var(--bg-elevated)] p-5">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="cart-modal-title" class="font-display text-2xl">YOUR CART</h2>
+        <button id="cart-close-btn" onclick="closeCart()">Close</button>
+      </div>
+      <div id="cart-items" class="space-y-3"></div>
+      <div class="border-t border-[var(--border)] mt-5 pt-4">
+        <div class="flex justify-between mb-3"><span id="cart-subtotal-label">Subtotal</span><span id="cart-subtotal">0</span></div>
+        <button id="cart-checkout-btn" onclick="checkoutFromCart()" class="btn-primary w-full rounded-lg py-3 text-sm">CHECKOUT</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="profile-modal" class="modal-overlay fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/80" onclick="closeProfile()"></div>
+    <div class="relative z-10 max-w-md mx-auto mt-24 bg-[var(--bg-elevated)] rounded-xl p-5">
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="profile-title" class="font-display text-3xl">MY PROFILE</h3>
+        <button id="profile-close-btn" onclick="closeProfile()">Close</button>
+      </div>
+      <input id="profile-name" type="text" class="w-full bg-[var(--card)] rounded-lg px-4 py-3 mb-3" placeholder="Your name">
+      <input id="profile-email" type="email" class="w-full bg-[var(--card)] rounded-lg px-4 py-3 mb-3" placeholder="you@example.com">
+      <button id="profile-save-btn" onclick="saveProfile()" class="btn-primary w-full rounded-lg py-3">SAVE PROFILE</button>
+    </div>
+  </div>
+
+  <div id="checkout-modal" class="modal-overlay fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/80" onclick="closeCheckout()"></div>
+    <div class="relative z-10 max-w-lg mx-auto mt-16 bg-[var(--bg-elevated)] rounded-xl p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="checkout-title" class="font-display text-3xl">PAYMENT DETAILS</h3>
+        <button id="checkout-close-btn" onclick="closeCheckout()">Close</button>
+      </div>
+      <div class="space-y-3">
+        <label class="text-xs text-[var(--muted)]" id="checkout-card-label">Card Number</label>
+        <input id="checkout-card-number" type="text" class="w-full bg-[var(--card)] rounded-lg px-4 py-3" maxlength="19" placeholder="1234 5678 9012 3456" oninput="formatCardNumber(this)">
+        <label class="text-xs text-[var(--muted)]" id="checkout-name-label">Cardholder Name</label>
+        <input id="checkout-card-name" type="text" class="w-full bg-[var(--card)] rounded-lg px-4 py-3" placeholder="John Doe">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs text-[var(--muted)]" id="checkout-expiry-label">Expiry</label>
+            <input id="checkout-expiry" type="text" class="w-full bg-[var(--card)] rounded-lg px-4 py-3" maxlength="5" placeholder="MM/YY" oninput="formatExpiry(this)">
+          </div>
+          <div>
+            <label class="text-xs text-[var(--muted)]" id="checkout-cvv-label">CVV</label>
+            <input id="checkout-cvv" type="password" class="w-full bg-[var(--card)] rounded-lg px-4 py-3" maxlength="4" placeholder="123">
+          </div>
+        </div>
+      </div>
+      <div class="mt-5">
+        <button id="checkout-pay-btn" onclick="submitCheckout()" class="btn-primary w-full rounded-lg py-3">PAY NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[var(--accent)] text-black px-4 py-2 rounded-full text-sm opacity-0 transition-opacity"></div>
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>
