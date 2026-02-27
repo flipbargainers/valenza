@@ -1,17 +1,258 @@
 media:
   input: assets/uploads
   output: /assets/uploads
+  extensions: [jpg, jpeg, png, gif, webp, svg, mp4, webm]
 
 settings:
   content:
     merge: true
 
-content:
-  - name: site
+# DASHBOARD VIEW CONFIGURATION - This gives you the control panel feel
+views:
+  - name: dashboard
+    label: Dashboard
+    type: page
+    file: content/site.json
+    fields:
+      - name: title
+        label: Site Title
+        type: string
+      - name: brandName
+        label: Brand Name
+        type: string
+
+  - name: products
+    label: Products
+    type: collection
+    path: content/products.json
+    key: items
+    fields:
+      - name: id
+        label: ID
+        type: number
+        required: true
+      - name: name
+        label: Product Name
+        type: string
+        required: true
+      - name: status
+        label: Status
+        type: select
+        options:
+          - label: Published
+            value: published
+          - label: Draft
+            value: draft
+        default: draft
+      - name: featured
+        label: Featured Product
+        type: boolean
+        default: false
+      - name: images
+        label: Product Images
+        type: image
+        list: true
+        options:
+          input: assets/uploads
+          extensions: [jpg, jpeg, png, webp]
+      - name: category
+        label: Category
+        type: select
+        options:
+          - sneakers
+          - apparel
+          - accessories
+          - headwear
+          - bags
+        allowOther: true
+      - name: collection
+        label: Collection
+        type: select
+        options:
+          - summer
+          - night
+          - tech
+          - heritage
+        allowOther: true
+      - name: gender
+        label: Gender
+        type: select
+        options:
+          - male
+          - female
+          - unisex
+      - name: price
+        label: Price ($)
+        type: number
+        step: 0.01
+        min: 0
+      - name: originalPrice
+        label: Compare At Price ($)
+        type: number
+        step: 0.01
+        min: 0
+      - name: stock
+        label: Stock Quantity
+        type: number
+        min: 0
+        default: 0
+      - name: sku
+        label: SKU
+        type: string
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+      - name: description
+        label: Description
+        type: text
+        multiline: true
+        options:
+          rows: 4
+
+  - name: collections
+    label: Collections
+    type: collection
+    path: content/collections.json
+    key: items
+    fields:
+      - name: slug
+        label: URL Slug
+        type: string
+        required: true
+        pattern: '^[a-z0-9-]+$'
+      - name: title
+        label: Collection Title
+        type: string
+        required: true
+      - name: subtitle
+        label: Subtitle
+        type: text
+      - name: image
+        label: Hero Image
+        type: image
+        options:
+          input: assets/uploads
+
+  - name: homepage
+    label: Homepage Builder
+    type: file
+    path: content/home.json
+    fields:
+      - name: hero
+        label: Hero Section
+        type: object
+        fields:
+          - name: kicker
+            label: Top Label
+            type: string
+          - name: title
+            label: Main Title
+            type: string
+          - name: subtitle
+            label: Subtitle
+            type: text
+          - name: gradientColor
+            label: Gradient Color
+            type: string
+            pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
+          - name: fannedImages
+            label: Hero Image Stack
+            type: image
+            list: true
+            options:
+              input: assets/uploads
+              max: 5
+      - name: productSections
+        label: Product Sections
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Section Title
+            type: string
+          - name: subtitle
+            label: Section Label
+            type: string
+          - name: mode
+            label: Display Mode
+            type: select
+            options:
+              - label: Latest Products
+                value: latest
+              - label: Featured Only
+                value: featured
+              - label: By Category
+                value: category
+              - label: By Collection
+                value: collection
+              - label: By Tag
+                value: tag
+              - label: Specific IDs
+                value: ids
+              - label: Manual Selection
+                value: manual
+          - name: value
+            label: Filter Value
+            type: string
+            description: Category name, collection slug, or comma-separated IDs
+          - name: limit
+            label: Max Products
+            type: number
+            min: 1
+            max: 12
+            default: 4
+      - name: genderSection
+        label: Gender Split Section
+        type: object
+        fields:
+          - name: enabled
+            label: Show Section
+            type: boolean
+          - name: title
+            label: Section Title
+            type: string
+          - name: maleImage
+            label: Male Category Image
+            type: image
+            options:
+              input: assets/uploads
+          - name: femaleImage
+            label: Female Category Image
+            type: image
+            options:
+              input: assets/uploads
+      - name: reviews
+        label: Reviews Section
+        type: object
+        fields:
+          - name: title
+            label: Section Title
+            type: string
+          - name: items
+            label: Reviews
+            type: object
+            list: true
+            fields:
+              - name: name
+                label: Customer Name
+                type: string
+              - name: rating
+                label: Rating
+                type: number
+                min: 1
+                max: 5
+              - name: text
+                label: Review Text
+                type: text
+              - name: date
+                label: Date
+                type: string
+
+  - name: sitewide
     label: Site Settings
     type: file
-    path: site.json
-    format: json
+    path: content/site.json
     fields:
       - name: title
         label: Browser Title
@@ -19,181 +260,84 @@ content:
       - name: brandName
         label: Brand Name
         type: string
-      - name: header
-        label: Header Buttons
+      - name: nav
+        label: Navigation
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Link Text
+            type: string
+          - name: page
+            label: Page
+            type: select
+            options:
+              - home
+              - plp
+              - collections
+              - about
+              - contact
+      - name: theme
+        label: Theme Settings
         type: object
         fields:
-          - name: searchButton
-            label: Search Button Text
+          - name: accentColor
+            label: Accent Color
             type: string
-          - name: cartButton
-            label: Cart Button Text
-            type: string
-      - name: hero
-        label: Main Buttons
+            pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
+          - name: imageHoverScale
+            label: Image Hover Zoom
+            type: number
+            step: 0.1
+            min: 1
+            max: 2
+      - name: footer
+        label: Footer
         type: object
         fields:
-          - name: shopNowButton
-            label: Shop Now Text
-            type: string
-          - name: exploreButton
-            label: Explore Text
-            type: string
-
-  - name: homepage
-    label: Homepage
-    type: file
-    path: home.json
-    format: json
-    fields:
-      - name: hero
-        label: Hero Banner
-        type: object
-        fields:
-          - name: kicker
-            label: Top Left Kicker (e.g. NEW COLLECTION)
-            type: string
-          - name: title
-            label: Main Title
-            type: string
-          - name: subtitle
-            label: Main Subtitle
+          - name: tagline
+            label: Tagline
             type: text
-          - name: sideKicker
-            label: Right Kicker (e.g. LIMITED DROP)
-            type: string
-          - name: sideTitle
-            label: Right Side Title
-            type: string
-          - name: sideSubtitle
-            label: Right Side Subtitle
-            type: text
-          - name: gradientColor
-            label: Accent Color (Hex)
-            type: string
-          - name: fannedImages
-            label: Hero Image Cards
-            type: image
+          - name: columns
+            label: Footer Columns
+            type: object
             list: true
-      - name: productSections
-        label: Homepage Product Rows
-        type: object
-        list: true
-        fields:
-          - name: title
-            label: Section Title
-            type: string
-          - name: subtitle
-            label: Section Subtitle
-            type: string
-          - name: mode
-            label: Fill Mode
-            type: select
-            options: [latest, featured, category, collection, tag, ids]
-          - name: value
-            label: Category or Collection Name
-            type: string
-          - name: limit
-            label: Product Limit
-            type: number
-      - name: genderSection
-        label: Promo Cards (Male/Female)
-        type: object
-        fields:
-          - name: enabled
-            label: Section Enabled?
-            type: boolean
-          - name: title
-            label: Section Title
-            type: string
-          - name: subtitle
-            label: Section Subtitle
-            type: text
-          - name: maleLabel
-            label: Male Card Label
-            type: string
-          - name: maleImage
-            label: Male Card Image
-            type: image
-          - name: femaleLabel
-            label: Female Card Label
-            type: string
-          - name: femaleImage
-            label: Female Card Image
-            type: image
-          - name: ctaLabel
-            label: Card Button Text
-            type: string
+            fields:
+              - name: title
+                label: Column Title
+                type: string
+              - name: links
+                label: Links
+                type: object
+                list: true
+                fields:
+                  - name: label
+                    label: Link Text
+                    type: string
+                  - name: action
+                    label: Action
+                    type: string
 
-  - name: products
-    label: Products Catalog
+  - name: commerce
+    label: Commerce Settings
     type: file
-    path: products.json
-    format: json
+    path: content/commerce.json
     fields:
-      - name: items
-        label: Product List
-        type: object
-        list: true
-        fields:
-          - name: id
-            label: ID Number
-            type: number
-          - name: name
-            label: Name
-            type: string
-          - name: category
-            label: Category
-            type: select
-            options: [sneakers, apparel, accessories]
-          - name: price
-            label: Price
-            type: number
-          - name: originalPrice
-            label: Original Price
-            type: number
-          - name: images
-            label: Images
-            type: image
-            list: true
-          - name: description
-            label: Description
-            type: text
-          - name: collection
-            label: Collection Slug
-            type: string
-          - name: gender
-            label: Gender
-            type: select
-            options: [male, female, unisex]
-          - name: status
-            label: Status
-            type: select
-            options: [published, draft]
-          - name: featured
-            label: Featured?
-            type: boolean
-
-  - name: collections
-    label: Collections
-    type: file
-    path: collections.json
-    format: json
-    fields:
-      - name: items
-        label: Collections List
-        type: object
-        list: true
-        fields:
-          - name: slug
-            label: Slug (ID)
-            type: string
-          - name: title
-            label: Title
-            type: string
-          - name: subtitle
-            label: Subtitle
-            type: string
-          - name: image
-            label: Banner Image
-            type: image
+      - name: apiBaseUrl
+        label: Backend API URL
+        type: string
+      - name: useLiveBackendProducts
+        label: Use Live Products
+        type: boolean
+      - name: currency
+        label: Currency Code
+        type: string
+        default: USD
+      - name: currencySymbol
+        label: Currency Symbol
+        type: string
+        default: $
+      - name: requireProfileEmail
+        label: Require Email for Checkout
+        type: boolean
+        default: true
